@@ -95,32 +95,63 @@ function PatientDashboard() {
         </div>
 
         <div className="quick-actions">
-          <Link to="/patient/book-appointment" className="quick-card">
-            <div className="quick-icon">
-              <CalendarCheck size={23} />
-            </div>
 
-            <div>
-              <h3>Book Appointment</h3>
-              <p>Find a centre and reserve a vaccination slot.</p>
-            </div>
+  <Link to="/patient/book-appointment" className="quick-card">
+    <div className="quick-icon">
+      <CalendarCheck size={23} />
+    </div>
 
-            <ArrowRight size={19} />
-          </Link>
+    <div>
+      <h3>Book Appointment</h3>
+      <p>Find a centre and reserve a vaccination slot.</p>
+    </div>
 
-          <Link to="/patient/records" className="quick-card">
-            <div className="quick-icon">
-              <FileText size={23} />
-            </div>
+    <ArrowRight size={19} />
+  </Link>
 
-            <div>
-              <h3>Vaccination Records</h3>
-              <p>View your complete vaccination history.</p>
-            </div>
 
-            <ArrowRight size={19} />
-          </Link>
-        </div>
+  <Link to="/patient/records" className="quick-card">
+    <div className="quick-icon">
+      <FileText size={23} />
+    </div>
+
+    <div>
+      <h3>Vaccination Records</h3>
+      <p>View your complete vaccination history.</p>
+    </div>
+
+    <ArrowRight size={19} />
+  </Link>
+
+
+  <Link to="/center-finder" className="quick-card">
+    <div className="quick-icon">
+      <MapPin size={23} />
+    </div>
+
+    <div>
+      <h3>Find Vaccination Center</h3>
+      <p>Find vaccination centers near your location.</p>
+    </div>
+
+    <ArrowRight size={19} />
+  </Link>
+
+
+  <Link to="/dose-reminder" className="quick-card">
+    <div className="quick-icon">
+      <Bell size={23} />
+    </div>
+
+    <div>
+      <h3>Dose Reminder</h3>
+      <p>Set a reminder for your next vaccine dose.</p>
+    </div>
+
+    <ArrowRight size={19} />
+  </Link>
+
+</div>
       </section>
 
       <section className="progress-section">
