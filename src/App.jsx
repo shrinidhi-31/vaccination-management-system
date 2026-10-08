@@ -10,6 +10,7 @@ import VaccinationRecords from "./pages/patient/VaccinationRecords";
 import BookingConfirmation from "./pages/patient/BookingConfirmation";
 
 import CenterFinder from "./components/CenterFinder";
+import DoseReminder from "./components/DoseReminder";
 
 function App() {
   return (
@@ -43,6 +44,11 @@ function App() {
           path="/center-finder"
           element={<CenterFinder />}
         />
+
+        <Route
+  path="/dose-reminder"
+  element={<DoseReminder />}
+/>
       </Routes>
     </BrowserRouter>
   );

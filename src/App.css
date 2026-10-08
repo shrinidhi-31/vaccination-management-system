@@ -330,3 +330,89 @@
     width: 100%;
   }
 }
+/* =================================
+   SMART DOSE REMINDER
+   ================================= */
+
+.dose-reminder {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f4f8fb;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.dose-reminder h1 {
+  color: #123c4a;
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.dose-reminder > p {
+  color: #555;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.reminder-box {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.reminder-box label {
+  display: block;
+  margin: 15px 0 7px;
+  font-weight: bold;
+  color: #333;
+}
+
+.reminder-box input,
+.reminder-box select {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #bbb;
+  border-radius: 7px;
+  box-sizing: border-box;
+}
+
+.reminder-box button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 13px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.reminder-box button:hover {
+  background: #125ca8;
+}
+
+.reminder-success {
+  max-width: 500px;
+  margin: 25px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+.reminder-success h2 {
+  color: #1976d2;
+}
+
+.reminder-success p {
+  color: #444;
+  font-size: 16px;
+}
