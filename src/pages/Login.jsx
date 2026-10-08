@@ -1,11 +1,34 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Syringe, Mail, Lock, ArrowRight } from "lucide-react";
+import { supabase } from "../lib/supabase";
 
 function Login() {
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
+    setError("");
+
+    const { error: loginError } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+    if (loginError) {
+      setError(loginError.message);
+      setLoading(false);
+      return;
+    }
+
     navigate("/patient/dashboard");
   };
 
@@ -17,9 +40,12 @@ function Login() {
         </div>
 
         <h1>Welcome Back</h1>
+
         <p className="auth-subtitle">
           Sign in to manage your vaccination journey.
         </p>
+
+        {error && <p className="auth-error">{error}</p>}
 
         <form onSubmit={handleLogin} className="auth-form">
           <div className="form-group">
@@ -27,9 +53,12 @@ function Login() {
 
             <div className="input-wrapper">
               <Mail size={18} />
+
               <input
                 type="email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
@@ -40,17 +69,24 @@ function Login() {
 
             <div className="input-wrapper">
               <Lock size={18} />
+
               <input
                 type="password"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
           </div>
 
-          <button type="submit" className="auth-button">
-            Sign In
-            <ArrowRight size={18} />
+          <button
+            type="submit"
+            className="auth-button"
+            disabled={loading}
+          >
+            {loading ? "Signing In..." : "Sign In"}
+            {!loading && <ArrowRight size={18} />}
           </button>
         </form>
 

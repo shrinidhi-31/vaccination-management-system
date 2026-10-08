@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import {
   Syringe,
   User,
@@ -7,12 +8,74 @@ import {
   Lock,
   ArrowRight,
 } from "lucide-react";
+import { supabase } from "../lib/supabase";
 
 function Register() {
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    dob: "",
+    gender: "",
+    address: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleRegister = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    // 1. Create Supabase Auth account
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+    });
+
+    if (signUpError) {
+      setError(signUpError.message);
+      setLoading(false);
+      return;
+    }
+
+    const user = data.user;
+
+    if (!user) {
+      setError("Account creation failed.");
+      setLoading(false);
+      return;
+    }
+
+   
+    // 3. Create patient record
+    const { error: patientError } = await supabase.from("patients").insert({
+      user_id: user.id,
+      full_name: formData.fullName,
+      phone: formData.phone,
+      dob: formData.dob,
+      gender: formData.gender,
+      address: formData.address,
+    });
+
+    if (patientError) {
+      setError(patientError.message);
+      setLoading(false);
+      return;
+    }
+
+    // 4. Registration successful
     navigate("/login");
   };
 
@@ -29,6 +92,8 @@ function Register() {
           Register to book appointments and manage your vaccination records.
         </p>
 
+        {error && <p className="auth-error">{error}</p>}
+
         <form onSubmit={handleRegister} className="auth-form">
           <div className="form-row">
             <div className="form-group">
@@ -38,7 +103,10 @@ function Register() {
                 <User size={18} />
                 <input
                   type="text"
+                  name="fullName"
                   placeholder="Your full name"
+                  value={formData.fullName}
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -51,7 +119,10 @@ function Register() {
                 <Phone size={18} />
                 <input
                   type="tel"
+                  name="phone"
                   placeholder="Your phone number"
+                  value={formData.phone}
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -65,7 +136,10 @@ function Register() {
               <Mail size={18} />
               <input
                 type="email"
+                name="email"
                 placeholder="Your email address"
+                value={formData.email}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -75,13 +149,24 @@ function Register() {
             <div className="form-group">
               <label>Date of Birth</label>
 
-              <input type="date" required />
+              <input
+                type="date"
+                name="dob"
+                value={formData.dob}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="form-group">
               <label>Gender</label>
 
-              <select required defaultValue="">
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                required
+              >
                 <option value="" disabled>
                   Select gender
                 </option>
@@ -97,7 +182,10 @@ function Register() {
 
             <input
               type="text"
+              name="address"
               placeholder="Enter your address"
+              value={formData.address}
+              onChange={handleChange}
               required
             />
           </div>
@@ -109,15 +197,19 @@ function Register() {
               <Lock size={18} />
               <input
                 type="password"
+                name="password"
                 placeholder="Create a password"
+                value={formData.password}
+                onChange={handleChange}
                 required
+                minLength={6}
               />
             </div>
           </div>
 
-          <button type="submit" className="auth-button">
-            Create Account
-            <ArrowRight size={18} />
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Creating Account..." : "Create Account"}
+            {!loading && <ArrowRight size={18} />}
           </button>
         </form>
 
