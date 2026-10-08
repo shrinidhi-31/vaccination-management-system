@@ -11,6 +11,7 @@
   &:hover {
     border-color: var(--accent-border);
   }
+
   &:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
@@ -42,8 +43,8 @@
     z-index: 1;
     top: 34px;
     height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg)
+      rotateY(39deg) scale(1.4);
   }
 
   .vite {
@@ -51,8 +52,8 @@
     top: 107px;
     height: 26px;
     width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg)
+      rotateY(39deg) scale(0.8);
   }
 }
 
@@ -78,6 +79,7 @@
   & > div {
     flex: 1 1 0;
     padding: 32px;
+
     @media (max-width: 1024px) {
       padding: 24px 20px;
     }
@@ -130,6 +132,7 @@
     &:hover {
       box-shadow: var(--shadow);
     }
+
     .button-icon {
       height: 18px;
       width: 18px;
@@ -156,6 +159,7 @@
 #spacer {
   height: 88px;
   border-top: 1px solid var(--border);
+
   @media (max-width: 1024px) {
     height: 48px;
   }
@@ -167,7 +171,7 @@
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: -4.5px;
     border: 5px solid transparent;
@@ -177,8 +181,152 @@
     left: 0;
     border-left-color: var(--border);
   }
+
   &::after {
     right: 0;
     border-right-color: var(--border);
+  }
+}
+
+/* =================================
+   VACCINATION CENTER FINDER
+   ================================= */
+
+.center-finder {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f4f8fb;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.center-finder h1 {
+  color: #123c4a;
+  font-size: 40px;
+  margin: 0 0 10px;
+}
+
+.center-finder > p {
+  color: #555;
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+/* Search Box */
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 25px auto 35px;
+  max-width: 650px;
+}
+
+.search-box input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 15px;
+  font-size: 16px;
+  border: 1px solid #bbb;
+  border-radius: 7px;
+  outline: none;
+  background: white;
+}
+
+.search-box input:focus {
+  border-color: #1976d2;
+}
+
+.search-box button {
+  padding: 13px 24px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-box button:hover {
+  background: #125ca8;
+}
+
+/* Center List */
+
+.center-list {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.center-list h2 {
+  color: #123c4a;
+  margin-bottom: 20px;
+}
+
+/* Center Cards */
+
+.center-card {
+  background: white;
+  padding: 22px;
+  margin: 18px 0;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid #1976d2;
+}
+
+.center-card h3 {
+  color: #1976d2;
+  margin-top: 0;
+  font-size: 21px;
+}
+
+.center-card p {
+  color: #444;
+  margin: 9px 0;
+  font-size: 16px;
+}
+
+/* View Details Button */
+
+.center-card button {
+  margin-top: 10px;
+  padding: 11px 20px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.center-card button:hover {
+  background: #125ca8;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 600px) {
+  .center-finder {
+    padding: 25px 15px;
+  }
+
+  .center-finder h1 {
+    font-size: 28px;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .search-box button {
+    width: 100%;
   }
 }

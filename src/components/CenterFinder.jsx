@@ -1,3 +1,4 @@
+import "../App.css";
 import { useState } from "react";
 
 function CenterFinder() {
@@ -62,7 +63,15 @@ function CenterFinder() {
 
               <p>🕐 {center.slots}</p>
 
-              <button>View Details</button>
+              <button
+  onClick={() =>
+    alert(
+      `Center: ${center.name}\nLocation: ${center.location}\nVaccines: ${center.vaccines}\nSlots: ${center.slots}`
+    )
+  }
+>
+  View Details
+</button>
             </div>
           ))}
         </div>
