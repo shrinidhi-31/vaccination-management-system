@@ -1,34 +1,63 @@
 import "../App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 
 function CenterFinder() {
   const [location, setLocation] = useState("");
   const [searched, setSearched] = useState(false);
+  const [centers, setCenters] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const centers = [
-    {
-      name: "Apollo Vaccination Center",
-      location: "Koramangala, Bengaluru",
-      vaccines: "Covaxin, Covishield",
-      slots: "10:00 AM, 2:00 PM, 4:00 PM",
-    },
-    {
-      name: "City Care Hospital",
-      location: "Indiranagar, Bengaluru",
-      vaccines: "Covishield",
-      slots: "11:00 AM, 3:00 PM",
-    },
-    {
-      name: "Government Health Center",
-      location: "Whitefield, Bengaluru",
-      vaccines: "Covaxin, Covishield",
-      slots: "9:00 AM, 1:00 PM",
-    },
-  ];
+  useEffect(() => {
+    const loadCenters = async () => {
+      const { data, error } = await supabase
+        .from("centers")
+        .select("id, name, location, phone")
+        .eq("is_active", true);
+
+      if (error) {
+        setError(error.message);
+        return;
+      }
+
+      setCenters(data || []);
+    };
+
+    loadCenters();
+  }, []);
 
   const handleSearch = () => {
+    setLoading(true);
     setSearched(true);
+    setError("");
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
   };
+
+  const uniqueCenters = Array.from(
+  new Map(
+    centers.map((center) => [
+      `${center.name}-${center.location}`,
+      center,
+    ])
+  ).values()
+);
+
+const filteredCenters = uniqueCenters.filter((center) => {
+  const searchText = location.toLowerCase().trim();
+
+  if (!searchText) {
+    return true;
+  }
+
+  return (
+    center.name.toLowerCase().includes(searchText) ||
+    center.location.toLowerCase().includes(searchText)
+  );
+});
 
   return (
     <div className="center-finder">
@@ -37,43 +66,72 @@ function CenterFinder() {
       <p>Find vaccination centers near you</p>
 
       <div className="search-box">
-        <input
-          type="text"
-          placeholder="Enter city, area or PIN code"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
+  <input
+    type="text"
+    placeholder="Enter city, area or PIN code"
+    value={location}
+    onChange={(e) => setLocation(e.target.value)}
+  />
 
-        <button onClick={handleSearch}>
-          Search
-        </button>
-      </div>
+  <select
+    value={location}
+    onChange={(e) => setLocation(e.target.value)}
+  >
+    <option value="">Select Location</option>
+
+    {Array.from(
+      new Set(centers.map((center) => center.location))
+    ).map((place) => (
+      <option key={place} value={place}>
+        {place}
+      </option>
+    ))}
+  </select>
+
+  <button onClick={handleSearch}>
+    Search
+  </button>
+</div>
+
+      {error && (
+        <p style={{ color: "#b42318" }}>
+          {error}
+        </p>
+      )}
 
       {searched && (
         <div className="center-list">
           <h2>Available Vaccination Centers</h2>
 
-          {centers.map((center, index) => (
-            <div className="center-card" key={index}>
-              <h3>🏥 {center.name}</h3>
+          {loading ? (
+            <p>Searching centers...</p>
+          ) : filteredCenters.length === 0 ? (
+            <p>No vaccination centers found for "{location}".</p>
+          ) : (
+            filteredCenters.map((center) => (
+              <div className="center-card" key={center.id}>
+                <h3>🏥 {center.name}</h3>
 
-              <p>📍 {center.location}</p>
+                <p>📍 {center.location}</p>
 
-              <p>💉 {center.vaccines}</p>
+                <p>
+                  📞 {center.phone || "Phone number not available"}
+                </p>
 
-              <p>🕐 {center.slots}</p>
-
-              <button
-  onClick={() =>
-    alert(
-      `Center: ${center.name}\nLocation: ${center.location}\nVaccines: ${center.vaccines}\nSlots: ${center.slots}`
-    )
-  }
->
-  View Details
-</button>
-            </div>
-          ))}
+                <button
+                  onClick={() =>
+                    alert(
+                      `Center: ${center.name}\nLocation: ${center.location}\nPhone: ${
+                        center.phone || "Not available"
+                      }`
+                    )
+                  }
+                >
+                  View Details
+                </button>
+              </div>
+            ))
+          )}
         </div>
       )}
     </div>
