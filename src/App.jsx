@@ -9,6 +9,8 @@ import BookAppointment from "./pages/patient/BookAppointment";
 import VaccinationRecords from "./pages/patient/VaccinationRecords";
 import BookingConfirmation from "./pages/patient/BookingConfirmation";
 
+import CenterFinder from "./components/CenterFinder";
+
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +37,11 @@ function App() {
         <Route
           path="/patient/booking-confirmation"
           element={<BookingConfirmation />}
+        />
+
+        <Route
+          path="/center-finder"
+          element={<CenterFinder />}
         />
       </Routes>
     </BrowserRouter>
