@@ -1,3 +1,5 @@
+import CenterFinder from "./components/CenterFinder";
+import DoseReminder from "./components/DoseReminder";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Landing from "./pages/Landing";
@@ -13,30 +15,40 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+  <Route path="/" element={<Landing />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/register" element={<Register />} />
 
-        <Route
-          path="/patient/dashboard"
-          element={<PatientDashboard />}
-        />
+  <Route
+    path="/patient/dashboard"
+    element={<PatientDashboard />}
+  />
 
-        <Route
-          path="/patient/book-appointment"
-          element={<BookAppointment />}
-        />
+  <Route
+    path="/patient/book-appointment"
+    element={<BookAppointment />}
+  />
 
-        <Route
-          path="/patient/records"
-          element={<VaccinationRecords />}
-        />
+  <Route
+    path="/patient/records"
+    element={<VaccinationRecords />}
+  />
 
-        <Route
-          path="/patient/booking-confirmation"
-          element={<BookingConfirmation />}
-        />
-      </Routes>
+  <Route
+    path="/patient/booking-confirmation"
+    element={<BookingConfirmation />}
+  />
+
+  <Route
+    path="/center-finder"
+    element={<CenterFinder />}
+  />
+
+  <Route
+    path="/dose-reminder"
+    element={<DoseReminder />}
+  />
+</Routes>
     </BrowserRouter>
   );
 }
